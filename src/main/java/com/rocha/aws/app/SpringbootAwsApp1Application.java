@@ -22,6 +22,7 @@ public class SpringbootAwsApp1Application {
 	@Bean
 	Function<String, String> uppercase() {
 		dataService.initDynamoDbClient();
+		dataService.persistData();
 		return value -> value.toUpperCase();
 	}
 
