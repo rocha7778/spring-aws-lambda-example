@@ -5,15 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.rocha.aws.app.secret.manager.AWSSecretsManagerUtil;
+import com.rocha.aws.app.model.Book;
 
 @Service
 public class DataSerivice {
@@ -27,35 +24,15 @@ public class DataSerivice {
 	}
 
 	public void initDynamoDbClient() {
-		
-		//JsonNode awsCredentials = AWSSecretsManagerUtil.getAWSCredentialsFromSecretsManager("dynamodb-access","us-east-2");
-		
-		//String accessKey = awsCredentials.get("accessKey").asText();
-		//String secretKey = awsCredentials.get("secretKey").asText();
-		
-		//System.out.println(accessKey);
-		//System.out.println(secretKey);
-
-		//BasicAWSCredentials awsSecret = new BasicAWSCredentials(accessKey, secretKey);
-		
-
-		this.amazonDynamoDB = AmazonDynamoDBClientBuilder
-				.standard()
-				.withRegion(REGION)
-				//.withCredentials(new AWSStaticCredentialsProvider(awsSecret))
-				.build();
+		this.amazonDynamoDB = AmazonDynamoDBClientBuilder.standard().withRegion(REGION).build();
 	}
 
-	public void persistData() throws ConditionalCheckFailedException {
-
+	public Book persistData(Book book) throws ConditionalCheckFailedException {
 		Map<String, AttributeValue> attributesMap = new HashMap<>();
-
-		attributesMap.put("id", new AttributeValue("73216158"));
-		attributesMap.put("text", new AttributeValue("Carlos Gutierrez"));
-
+		attributesMap.put("id", new AttributeValue(book.getId()));
+		attributesMap.put("text", new AttributeValue(book.getText()));
 		amazonDynamoDB.putItem(DYNAMODB_TABLE_NAME, attributesMap);
+		return book;
 	}
-
-
 
 }

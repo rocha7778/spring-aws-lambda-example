@@ -7,11 +7,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.rocha.aws.app.model.Book;
 import com.rocha.aws.app.service.DataSerivice;
 
 @SpringBootApplication
 public class SpringbootAwsApp1Application {
-	
+
 	@Autowired
 	private DataSerivice dataService;
 
@@ -20,10 +21,10 @@ public class SpringbootAwsApp1Application {
 	}
 
 	@Bean
-	Function<String, String> uppercase() {
+	Function<Book, Book> uppercase() {
 		dataService.initDynamoDbClient();
-		dataService.persistData();
-		return value -> value.toUpperCase();
+		return value -> {
+			return dataService.persistData(value);
+		};
 	}
-
 }

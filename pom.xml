@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rocha.aws.app</groupId>
-	<artifactId>circuit-bracker</artifactId>
+	<artifactId>lambda-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springboot-aws-app-1</name>
 	<description>Aws Demo</description>

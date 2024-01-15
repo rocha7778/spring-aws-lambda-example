@@ -11,10 +11,8 @@ import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRespon
 public class AWSSecretsManagerUtil {
 
 	public static JsonNode getAWSCredentialsFromSecretsManager(String secretName, String region) {
-		
-		
-		SecretsManagerClient secretsManagerClient = SecretsManagerClient.builder()
-				.region(Region.of(region)).build();
+
+		SecretsManagerClient secretsManagerClient = SecretsManagerClient.builder().region(Region.of(region)).build();
 
 		GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder().secretId(secretName).build();
 		GetSecretValueResponse getSecretValueResponse = secretsManagerClient.getSecretValue(getSecretValueRequest);
@@ -25,11 +23,8 @@ public class AWSSecretsManagerUtil {
 		try {
 			jsonNode = objectMapper.readTree(getSecretValueResponse.secretString());
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		
-
-		return  jsonNode;
+		return jsonNode;
 	}
-
 }
